@@ -1,7 +1,7 @@
-import Users from "../models/data.js"
+import Users from '../data/index.js'
 
 const fetchAllUsers = () => {
-	return Users 
+	return Users
 }
 
 export const getAllUsers = (_, res) => {

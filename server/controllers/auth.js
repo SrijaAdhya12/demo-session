@@ -1,4 +1,4 @@
-import Users from '../models/data'
+import Users from '../data/index.js'
 
 export const signup = (req, res) => {
 	const { username, password } = req.body
@@ -32,4 +32,21 @@ export const signin = (req, res) => {
 
 	req.session.user = { username: user.username }
 	res.json({ message: 'Signin successful', user: req.session.user })
+}
+
+export const signout = (req, res) => {
+	req.session.destroy((err) => {
+		if (err) {
+			return res.status(500).json({ message: 'Error signing out', error: err })
+		}
+		res.json({ message: 'Signout successful' })
+	})
+}
+
+export const isAuthenticated = (req, res, next) => {
+	if (req.session.user) {
+		next()
+	} else {
+		res.status(401).json({ message: 'Unauthorized' })
+	}
 }
