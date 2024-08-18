@@ -2,6 +2,8 @@ import express from 'express'
 import session from 'express-session'
 import dotenv from 'dotenv'
 import cors from 'cors'
+import connectMongo from 'connect-mongodb-session'
+import mongoose from 'mongoose'
 import { AuthRoutes, UserRoutes } from './routes/index.js'
 
 dotenv.config()
@@ -17,6 +19,14 @@ app.use(
 	})
 )
 
+const MongoDBStore = connectMongo(session)
+const store = new MongoDBStore({
+	uri: process.env.MONGO_URI,
+	collection: 'session'
+})
+
+store.on('error', (err) => console.log(err))
+
 app.use(
 	session({
 		secret: process.env.SECRET,
@@ -25,7 +35,8 @@ app.use(
 		cookie: {
 			secure: false,
 			maxAge: 1000 * 60 * 60 * 24 * 7
-		}
+		},
+		store: store
 	})
 )
 
@@ -42,6 +53,8 @@ app.get('/auth/check-session', (req, res) => {
 	}
 })
 
-app.listen(port, () => {
-	console.log(`Server is running at ${port}`)
-})
+mongoose
+	.connect(process.env.MONGO_URI)
+	.then(console.log('Connected to MongoDB Database 🌐'))
+	.then(() => app.listen(port, () => console.log(`Server running on port: ${port} 🚀`)))
+	.catch((error) => console.log(error.message))
