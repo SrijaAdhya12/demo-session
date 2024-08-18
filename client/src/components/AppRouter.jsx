@@ -1,9 +1,9 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
-import { SignUp } from '../pages'
+import { SignIn } from '../pages'
 const AppRouter = () => {
 	return (
 		<Routes>
-			<Route path="/" element={<SignUp />} />
+			<Route path="/" element={<SignIn />} />
 		</Routes>
 	)
 }
