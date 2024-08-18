@@ -1,16 +1,12 @@
 import React from 'react'
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import AppRouter from './components/AppRouter'
+import { AppRouter } from './components'
 
-
-const app = () => {
-  return (
-	  <div>
-		  <AppRouter/>
-			<ToastContainer/>
+const App = () => {
+	return (
+		<div>
+			<AppRouter />
 		</div>
-  )
+	)
 }
 
-export default app
+export default App

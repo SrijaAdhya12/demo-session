@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { Auth as AuthContext } from '../../contexts/Auth'
+import { AuthContext } from '/src/contexts/Auth.jsx'
 
 const useAuth = () => useContext(AuthContext)
 export default useAuth

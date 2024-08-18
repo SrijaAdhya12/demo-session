@@ -9,7 +9,9 @@ export const AuthProvider = ({ children }) => {
 	useEffect(() => {
 		const checkSession = async () => {
 			try {
-				const response = await fetch('/auth/check-session')
+				const response = await fetch(`${import.meta.env.VITE_API}/auth/check-session`, {
+					credentials: 'include'
+				})
 				const data = await response.json()
 				if (response.ok) {
 					setCurrentUser(data.user)
@@ -29,7 +31,7 @@ export const AuthProvider = ({ children }) => {
 
 	const signIn = async (username, password) => {
 		try {
-			const response = await fetch('/auth/signin', {
+			const response = await fetch(`${import.meta.env.VITE_API}/auth/signin`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'

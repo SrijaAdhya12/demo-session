@@ -1,9 +1,9 @@
 import { Navigate } from 'react-router-dom'
 import useAuth from '../hooks/useAuth'
 
-const Auth = ({ component }) => {
+const Private = ({ component }) => {
 	const { currentUser } = useAuth()
-	return currentUser ? <Navigate to="/profile" /> : component
+	return currentUser ? component : <Navigate to="/signin" />
 }
 
-export default Auth
+export default Private

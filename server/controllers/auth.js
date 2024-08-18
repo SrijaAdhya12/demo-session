@@ -20,18 +20,13 @@ export const signup = (req, res) => {
 
 export const signin = (req, res) => {
 	const { username, password } = req.body
-
-	if (!username || !password) {
-		return res.status(400).json({ message: 'Username and password are required' })
+	const user = Users.find((u) => u.username === username && u.password === password)
+	if (user) {
+		req.session.user = { username: user.username }
+		res.json({ message: 'Signin successful', user: req.session.user })
+	} else {
+		res.status(401).json({ message: 'Invalid credentials' })
 	}
-
-	const user = Users.find((user) => user.username === username && user.password === password)
-	if (!user) {
-		return res.status(401).json({ message: 'Invalid credentials' })
-	}
-
-	req.session.user = { username: user.username }
-	res.json({ message: 'Signin successful', user: req.session.user })
 }
 
 export const signout = (req, res) => {
