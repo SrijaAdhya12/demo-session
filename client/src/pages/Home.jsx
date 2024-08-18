@@ -1,14 +1,19 @@
-import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks'
+
 const Home = () => {
 	const { signOut } = useAuth()
+	const navigate = useNavigate()
+
 	const handleLogout = async () => {
 		try {
 			await signOut()
+			navigate('/signin') // Redirect to sign-in page after logout
 		} catch (error) {
-			console.error(error.message)
+			console.error('Error during logout:', error.message)
 		}
 	}
+
 	return (
 		<div>
 			<h1>Home</h1>
