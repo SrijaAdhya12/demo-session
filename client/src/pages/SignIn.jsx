@@ -1,24 +1,24 @@
 import React from 'react'
 import { useState } from 'react'
+import useAuth from '../hooks/useAuth'
 
 const SignIn = () => {
-	const [formData, setformData] = useState({
-		email: '',
+	const [formData, setFormData] = useState({
+		username: '',
 		password: ''
 	})
+	const { signIn } = useAuth()
 	const handleChange = (e) => {
-		setformData({ ...formData, [e.target.name]: e.target.value })
+		setFormData({ ...formData, [e.target.name]: e.target.value })
 	}
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
 		try {
-			const { email, password } = formData
-			await logIn(email, password)
-			toast.success('User logged succesfully')
+			const { username, password } = formData
+			await signIn(username, password)
 		} catch (error) {
 			console.error(error.message)
-			toast.error(error.message)
 		}
 	}
 	return (
@@ -33,6 +33,7 @@ const SignIn = () => {
 						<input
 							type="text"
 							id="username"
+							name="username"
 							required
 							className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
 							value={formData.username}
@@ -47,6 +48,7 @@ const SignIn = () => {
 						<input
 							type="password"
 							id="password"
+							name="password"
 							required
 							className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
 							value={formData.password}

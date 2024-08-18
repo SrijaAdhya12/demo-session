@@ -1,4 +1,5 @@
-import { createContext, useEffect, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
+import { SignIn } from '../pages' // Import your SignIn component
 
 export const AuthContext = createContext()
 
@@ -10,12 +11,20 @@ export const AuthProvider = ({ children }) => {
 		const checkSession = async () => {
 			try {
 				const response = await fetch(`${import.meta.env.VITE_API}/auth/check-session`, {
+					method: 'GET',
 					credentials: 'include'
 				})
-				const data = await response.json()
+
 				if (response.ok) {
-					setCurrentUser(data.user)
+					try {
+						const data = await response.json()
+						setCurrentUser(data.user)
+					} catch (jsonError) {
+						console.error('Error parsing JSON:', jsonError)
+						setCurrentUser(null)
+					}
 				} else {
+					console.error('Response error:', response.statusText)
 					setCurrentUser(null)
 				}
 			} catch (error) {
@@ -28,7 +37,6 @@ export const AuthProvider = ({ children }) => {
 
 		checkSession()
 	}, [])
-
 	const signIn = async (username, password) => {
 		try {
 			const response = await fetch(`${import.meta.env.VITE_API}/auth/signin`, {
@@ -38,11 +46,19 @@ export const AuthProvider = ({ children }) => {
 				},
 				body: JSON.stringify({ username, password })
 			})
-			const data = await response.json()
+
+			const text = await response.text()
+			let data
+			if (text) {
+				data = JSON.parse(text)
+			} else {
+				data = {}
+			}
+
 			if (response.ok) {
 				setCurrentUser(data.user)
 			} else {
-				throw new Error(data.message)
+				throw new Error(data.message || 'Unknown error')
 			}
 		} catch (error) {
 			console.error('Error signing in:', error)
@@ -52,8 +68,9 @@ export const AuthProvider = ({ children }) => {
 
 	const signOut = async () => {
 		try {
-			await fetch('/auth/signout', {
-				method: 'POST'
+			await fetch(`${import.meta.env.VITE_API}/auth/signout`, {
+				method: 'POST',
+				credentials: 'include' // Ensure cookies/session are included
 			})
 			setCurrentUser(null)
 		} catch (error) {
@@ -67,5 +84,9 @@ export const AuthProvider = ({ children }) => {
 		signOut
 	}
 
-	return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>
+	if (loading) {
+		return <div>Loading...</div>
+	}
+
+	return <AuthContext.Provider value={value}>{currentUser ? children : <SignIn />}</AuthContext.Provider>
 }
