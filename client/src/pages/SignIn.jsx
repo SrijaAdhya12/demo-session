@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import useAuth from '../hooks/useAuth'
+import { useAuth } from '../hooks'
 
 const SignIn = () => {
 	const [formData, setFormData] = useState({
@@ -60,7 +60,7 @@ const SignIn = () => {
 						type="submit"
 						className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
 					>
-						Sign Up
+						Sign In
 					</button>
 				</form>
 			</div>

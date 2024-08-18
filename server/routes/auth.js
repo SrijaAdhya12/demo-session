@@ -5,7 +5,7 @@ const router = express.Router()
 router.post('/signin', signin)
 router.post('/signup', signup)
 router.post('/signout', signout)
-router.get('/profile', isAuthenticated, (req, res) => {
+router.get('/', isAuthenticated, (req, res) => {
 	res.json({ message: 'This is a protected route', user: req.session.user })
 })
 

@@ -1,9 +1,9 @@
-import React, { createContext, useEffect, useState } from 'react'
-import { SignIn } from '../pages' // Import your SignIn component
+import React, { useEffect, useState } from 'react'
+import { AuthContext } from '../contexts'
 
-export const AuthContext = createContext()
+// export const AuthContext = createContext()
 
-export const AuthProvider = ({ children }) => {
+const AuthProvider = ({ children }) => {
 	const [currentUser, setCurrentUser] = useState(null)
 	const [loading, setLoading] = useState(true)
 
@@ -68,11 +68,15 @@ export const AuthProvider = ({ children }) => {
 
 	const signOut = async () => {
 		try {
-			await fetch(`${import.meta.env.VITE_API}/auth/signout`, {
+			const response = await fetch(`${import.meta.env.VITE_API}/auth/signout`, {
 				method: 'POST',
-				credentials: 'include' // Ensure cookies/session are included
+				credentials: 'include' 
 			})
-			setCurrentUser(null)
+			if (response.ok) {
+				setCurrentUser(null)
+			} else {
+				throw new Error('Failed to sign out')
+			}
 		} catch (error) {
 			console.error('Error signing out:', error)
 		}
@@ -88,5 +92,7 @@ export const AuthProvider = ({ children }) => {
 		return <div>Loading...</div>
 	}
 
-	return <AuthContext.Provider value={value}>{currentUser ? children : <SignIn />}</AuthContext.Provider>
+	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
+
+export default AuthProvider
