@@ -1,9 +1,14 @@
 import React from 'react'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import SignUp from './pages/SignUp'
+
 
 const app = () => {
   return (
-		<div>
-			<h1 className="text-3xl font-bold underline">Hello world!</h1>
+	  <div>
+		  <SignUp/>
+			<ToastContainer/>
 		</div>
   )
 }
