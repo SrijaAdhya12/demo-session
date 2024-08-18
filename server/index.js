@@ -9,7 +9,7 @@ const app = express()
 app.use(express.json())
 app.get('/', (_, res) => res.send('Welcome to Express Server'))
 
-const allowedOrigin = 'http://localhost:5173'
+const allowedOrigin = process.env.PRODUCTION_URL
 app.use(
 	cors({
 		origin: allowedOrigin,
