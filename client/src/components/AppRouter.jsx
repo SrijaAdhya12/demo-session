@@ -1,13 +1,13 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { SignIn, Home } from '../pages'
-import { AuthRoute } from '../routes'
-import Private from '../routes/Private'
+import { AuthRoute, PrivateRoute} from '../routes'
+
 const AppRouter = () => {
 	return (
 		<Routes>
 			<Route path="/" element={<Home />} />
 			<Route path="/signin" element={<AuthRoute component={<SignIn />} />} />
-			<Route path="/" element={<Private component={<Home />} />} />
+			<Route path="/" element={<PrivateRoute component={<Home />} />} />
 		</Routes>
 	)
 }
