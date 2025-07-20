@@ -1,4 +1,4 @@
-    updated on: 17th February 2025, Monday
+    updated on: 20th July 2025, Sunday
 
 <div align=center>
     <a href="https://github.com/SrijaAdhya12/demo-session">
@@ -121,4 +121,4 @@
 [line]: https://user-images.githubusercontent.com/75939390/137615281-3a875960-92cc-407f-97fe-fd2319bdb252.png
 [License]: https://github.com/SrijaAdhya12/demo-session/blob/main/LICENSE
 
-<!-- 17/02/25 -->
+<!-- 20/07/25 -->
